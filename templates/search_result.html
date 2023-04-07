@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Search Results</h1>
+
+<ul>
+  {% if customers %}
+  {% for customer in customers %}
+    <li>
+      <a href="/{{customer.id}}/">
+        {{ customer.first_name }} {{ customer.last_name }}
+      </a>
+    </li>
+    {% endfor %}
+  {% elif customer %}
+  <li>
+    <a href="/{{ customer.id }}/">
+      {{ customer.first_name }} {{ customer.last_name }}
+    </a>
+  </li>
+  {% endif %}
+</ul>
+
+
+{% endblock %}

@@ -64,6 +64,7 @@ class Customer {
     const results = await db.query(
       `SELECT first_name AS "firstName",
               last_name AS "lastName",
+              id
         FROM customers
         WHERE first_name = $1
         AND last_name = $2`,
@@ -84,7 +85,7 @@ class Customer {
   static async getNames(name) {
 
     const results = await db.query(
-      `SELECT first_name, last_name
+      `SELECT first_name, last_name, id
         FROM customers
         WHERE first_name = $1
         OR last_name = $1`,
@@ -98,7 +99,7 @@ class Customer {
       err.status = 404;
       throw err;
     }
-    return customers;
+    return customers
   }
   /** combines this customers firstname and lastname */
 

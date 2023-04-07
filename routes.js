@@ -36,6 +36,25 @@ router.post("/add/", async function (req, res, next) {
   return res.redirect(`/${customer.id}/`);
 });
 
+/** Handle searching for a customer. */
+
+router.get("/search", async function (req, res, next) {
+  const query = req.query.search;
+  const fullName = query.split(' ');
+
+  if (fullName.length > 1) {
+      let customer = await Customer.getName(fullName);
+      return res.render('search_result.html', { customer })
+    } else if (fullName.length === 1) {
+    let customers = await Customer.getNames(fullName);
+    let customersList = [];
+    console.log(customers)
+    return res.render('search_result.html', { customers })
+    } else {
+      return res.redirect(req.body.origin);
+    }
+})
+
 /** Show a customer, given their ID. */
 
 router.get("/:id/", async function (req, res, next) {
@@ -104,20 +123,3 @@ module.exports = router;
 /// Flash messages into the catch block would be better than throwing a new error
 
 
-
-router.get('/search/:name',  async function (req, res, next) {
-  const query = req.params.name;
-  console.log(query)
-  const fullName = query.split(' ');
-  console.log(fullName)
-  // if (fullName.length > 1) {
-  //   const name = await Customer.getName(fullName);
-  //   return render('/templates/search_result.html', name=name)
-  // } else if (fullName.length === 1) {
-  //   const names = await Customer.getNames(fullName);
-  //   return render('/templates/search_result.html', names=names)
-  // } else {
-  //   return res.redirect(req.body.origin);
-  // }
-
-})
