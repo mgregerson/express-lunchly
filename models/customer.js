@@ -57,6 +57,7 @@ class Customer {
     return new Customer(customer);
   }
 
+  /** DOCSTRING ME */
   static async getName(name) {
     const firstName = name[0];
     const lastName = name[1];
@@ -69,7 +70,7 @@ class Customer {
       [firstName, lastName]
     );
 
-    const customer = result.rows[0];
+    const customer = results.rows[0];
 
     if (customer === undefined) {
       const err = new Error(`No such customer: ${firstName} ${lastName}`);
@@ -79,6 +80,26 @@ class Customer {
     return customer;
   }
 
+
+  static async getNames(name) {
+
+    const results = await db.query(
+      `SELECT first_name, last_name
+        FROM customers
+        WHERE first_name = $1
+        OR last_name = $1`,
+        [name[0]]
+    );
+
+    const customers = results.rows;
+
+    if (customers === undefined) {
+      const err = new Error(`No such customer: ${name}`);
+      err.status = 404;
+      throw err;
+    }
+    return customers;
+  }
   /** combines this customers firstname and lastname */
 
   fullName() {
