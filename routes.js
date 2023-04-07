@@ -64,7 +64,7 @@ router.get("/:id/", async function (req, res, next) {
   const customer = await Customer.get(req.params.id);
 
   const reservations = await customer.getReservations();
-
+  // let flash = res.send(req.flash("success_msg"));
   return res.render("customer_detail.html", { customer, reservations });
 });
 
@@ -112,9 +112,10 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
 
   try {
     await reservation.save();
+    // req.flash("success_msg", "Reservation booked");
   } catch {
-    throw new BadRequestError("Please input valid reservation info");
-    // return res.redirect(`/${customerId}/`)
+    // req.flash("error_msg", "Failed to book reservation")
+    return res.redirect(`/${customerId}/`);
   }
 
   return res.redirect(`/${customerId}/`);

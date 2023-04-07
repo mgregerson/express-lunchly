@@ -10,7 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "*",
+    "connect-flash": "^0.1.1",
     "express": "^5.0.0-beta.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.3",
     "moment": "*",
     "nunjucks": "*",
     "pg": "*"

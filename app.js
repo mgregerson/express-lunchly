@@ -4,13 +4,21 @@
 
 const express = require("express");
 const nunjucks = require("nunjucks");
-// const flash = require('express-flash');
+const flash = require('express-flash');
+const session = require('express-session')
 const routes = require("./routes");
 const { NotFoundError } = require("./expressError");
 
 const app = new express();
 
 // Parse body for urlencoded (traditional form) data
+app.use(flash());
+app.use(session({
+  secret: "sssshhhh",
+  saveUninitialized: false,
+  resave: false,
+}
+));
 app.use(express.urlencoded());
 
 nunjucks.configure("templates", {
