@@ -81,7 +81,7 @@ class Customer {
     return customer;
   }
 
-
+/** DOCSTRING ME TOO */
   static async getNames(name) {
 
     const results = await db.query(
@@ -113,6 +113,21 @@ class Customer {
   async getReservations() {
     return await Reservation.getReservationsForCustomer(this.id);
   }
+
+/** SQL query for top ten customers by reservation amount */
+  static async topTen() {
+    const results = await db.query(
+      `SELECT first_name, last_name, COUNT(reservations.id) as num, customers.id
+      FROM customers
+      JOIN reservations
+      ON reservations.customer_id = customers.id
+      GROUP BY first_name, last_name, customers.id
+      ORDER BY num DESC
+      LIMIT 10`
+    )
+    return results.rows;
+  }
+
 
   /** save this customer. */
 

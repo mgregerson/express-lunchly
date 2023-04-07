@@ -6,6 +6,9 @@
 
 <ul>
   {% if customers %}
+    {% if customers.length === 0 %}
+      <h2>There are no customers matching your search.</h2>
+      {% endif %}
   {% for customer in customers %}
     <li>
       <a href="/{{customer.id}}/">
@@ -15,6 +18,10 @@
     {% endfor %}
   {% elif customer %}
   <li>
+    {% if customer.length === 0 %}
+      There are no customers matching your search.
+    {% endif %}
+
     <a href="/{{ customer.id }}/">
       {{ customer.first_name }} {{ customer.last_name }}
     </a>

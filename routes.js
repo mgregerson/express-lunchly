@@ -43,16 +43,19 @@ router.get("/search", async function (req, res, next) {
   const fullName = query.split(' ');
 
   if (fullName.length > 1) {
-      let customer = await Customer.getName(fullName);
-      return res.render('search_result.html', { customer })
+      let customers = await Customer.getName(fullName);
+      return res.render('search_result.html', { customers })
     } else if (fullName.length === 1) {
-    let customers = await Customer.getNames(fullName);
-    let customersList = [];
-    console.log(customers)
-    return res.render('search_result.html', { customers })
-    } else {
-      return res.redirect(req.body.origin);
+    let customer = await Customer.getNames(fullName);
+    console.log(customer)
+    return res.render('search_result.html', { customer })
     }
+})
+
+/** Handle display of the top ten page */
+router.get('/top-ten/', async function (req, res, next) {
+  const customers = await Customer.topTen();
+  return res.render('top_ten.html', { customers })
 })
 
 /** Show a customer, given their ID. */
