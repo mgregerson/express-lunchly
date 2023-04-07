@@ -87,9 +87,18 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
     numGuests,
     notes,
   });
-  await reservation.save();
+
+  try {
+    await reservation.save();
+  } catch {
+    throw new BadRequestError("Please input valid reservation info");
+    // return res.redirect(`/${customerId}/`)
+  }
 
   return res.redirect(`/${customerId}/`);
 });
 
 module.exports = router;
+
+
+/// Flash messages into the catch block would be better than throwing a new error

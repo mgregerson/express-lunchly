@@ -57,6 +57,30 @@ class Customer {
     return new Customer(customer);
   }
 
+  static async getName(name) {
+    const firstName = name[0];
+    const lastName = name[1];
+    const results = await db.query(
+      `SELECT first_name AS "firstName",
+              last_name AS "lastName",
+        FROM customers
+        WHERE first_name = $1
+        AND last_name = $2`,
+      [firstName, lastName]
+    );
+
+    const customer = result.rows[0];
+
+    if (customer === undefined) {
+      const err = new Error(`No such customer: ${firstName} ${lastName}`);
+      err.status = 404;
+      throw err;
+    }
+    return customer;
+  }
+
+  /** combines this customers firstname and lastname */
+
   fullName() {
     const fullName = `${this.firstName} ${this.lastName}`
     return fullName;

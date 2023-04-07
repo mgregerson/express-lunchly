@@ -40,6 +40,8 @@ class Reservation {
     return results.rows.map(row => new Reservation(row));
   }
 
+   /** save this reservation. */
+
   async save() {
     if (this.id === undefined) {
       const result = await db.query(`
@@ -62,11 +64,11 @@ class Reservation {
 }
 
 // // Part Five: Saving Reservations»
-// // We’ve already written a .save() method for customers. 
-// This either adds a new customer if they’re new, or 
+// // We’ve already written a .save() method for customers.
+// This either adds a new customer if they’re new, or
 // updates the existing record if there are changes.
 
-// // We don’t yet have a similar method for reservations, 
+// // We don’t yet have a similar method for reservations,
 // but we need one in order to save reservations.Write this.
 
 
