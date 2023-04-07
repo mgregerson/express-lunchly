@@ -39,7 +39,36 @@ class Reservation {
 
     return results.rows.map(row => new Reservation(row));
   }
+
+  async save() {
+    if (this.id === undefined) {
+      const result = await db.query(`
+        INSERT into reservations (customer_id, num_guests, start_at, notes)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id`,
+        [this.customerId, this.numGuests, this.startAt, this.notes]
+      );
+      this.id = result.rows[0].id;
+    } else {
+      await db.query(
+        `Update reservations
+            SET num_guests = $1,
+                start_at = $2,
+                notes = $3
+            WHERE id = $4`,
+      [this.numGuests, this.startAt, this.notes, this.id])
+    };
+  };
 }
+
+// // Part Five: Saving Reservations»
+// // We’ve already written a .save() method for customers. 
+// This either adds a new customer if they’re new, or 
+// updates the existing record if there are changes.
+
+// // We don’t yet have a similar method for reservations, 
+// but we need one in order to save reservations.Write this.
+
 
 
 module.exports = Reservation;
